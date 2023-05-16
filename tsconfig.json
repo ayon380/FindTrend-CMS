@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/api/pincode.js", "src/pages/_app.jsx", "src/components/Navbar.jsx", "src/pages/products/[slug].jsx", "src/pages/checkout.jsx", "src/pages/order.jsx", "src/pages/tshirts.jsx", "src/pages/api/productdetail.js", "src/pages/hoodies.jsx", "src/pages/payment.jsx", "src/pages/index.tsx", "src/pages/admindashboard.jsx"],
+  "exclude": ["node_modules"]
+}

@@ -1,0 +1,33 @@
+{
+    "title": "Wear the Fuck",
+    "slug": "wearthefuck",
+    "description": "Sexy As Fuck",
+    "category": "Shirts",
+    "Variant Format": "[color,size,imageurl,availableQ]",
+    "variant": [
+        [
+            "red",
+            "M",
+            "https://m.media-amazon.com/images/I/61Dl8WUFr7L._UX569_.jpg",
+            5
+        ],
+        [
+            "blue",
+            "S",
+            "https://m.media-amazon.com/images/I/71WmwSot-vL._UX466_.jpg",
+            5
+        ]
+    ],
+    "price": 499
+}
+[{
+    "title": "Wear the Fuck",
+    "slug": "wearthefuck",
+    "description": "Sexy As Fuck",
+    "category": "Shirts",
+    "variant": 
+        
+            "red,M,https://m.media-amazon.com/images/I/61Dl8WUFr7L._UX569_.jpg,5;blue,S,https://m.media-amazon.com/images/I/71WmwSot-vL._UX466_.jpg,5;"
+    
+    "price": 499
+}]
