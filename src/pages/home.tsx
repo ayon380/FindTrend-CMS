@@ -1,7 +1,27 @@
-import React, { useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 const Home = () => {
   const [images, setImages] = useState([]);
+  const verify = async () => {
+    const token = localStorage.getItem("user");
+    // console.log("dsfds");
+
+    let res = await fetch(
+      `${process.env.NEXT_PUBLIC_HOST}/api/jwtadminverify`,
+      {
+        method: "POST",
+        body: JSON.stringify({ token }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const d = await res.json();
+    if (d.success !== true) {
+      // console.log("success");
+      window.location.href = "/login";
+    }
+  };
   const getdata = async () => {
     let p = await fetch(`/api/getdata`, {
       method: "GET",
@@ -14,6 +34,7 @@ const Home = () => {
   };
   useEffect(() => {
     getdata();
+    verify();
   }, []);
   const logout = () => {
     localStorage.removeItem("user");
@@ -35,7 +56,14 @@ const Home = () => {
       </div>
       <div className=" text-center">
         {images.map((e) => {
-          return <img className="block mx-auto rounded-3xl mb-11" key={e} src={e} alt="" />;
+          return (
+            <img
+              className="block mx-auto rounded-3xl mb-11"
+              key={e}
+              src={e}
+              alt=""
+            />
+          );
         })}
       </div>
     </div>

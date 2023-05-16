@@ -50,7 +50,6 @@ export default function Home() {
       disable: () => {
         return window.innerWidth < 991;
       },
-  
     });
     setTimeout(() => {
       setIsDisabled(true);
@@ -59,7 +58,7 @@ export default function Home() {
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("dfsd");
-    
+
     // Handle form submission logic here
     let res = await fetch("/api/contact", {
       method: "POST",
@@ -80,48 +79,57 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div><Head>
+      <link rel="icon" href="https://assets.website-files.com/6233f2ac51d2013d6dca2856/6233fa2810f7c36829594905_main-logo.png" />
+    </Head>
       <div>
         {isDisabled && (
           <div className="popup-overlay">
-          <div className="popup-content bg-black mt-5 rounded-lg text-white">
-            <h2 className="text-center">Contact Form</h2>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="name">Name:</label>
-                <input
-                  id="name"
-                  className="form-control"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <input
-                  id="email"
-                  className="form-control"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="message">Message:</label>
-                <textarea
-                  id="message"
-                  className="form-control"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                ></textarea>
-              </div>
-              <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-            <button onClick={() => setIsDisabled(false)} className="btn btn-secondary">Close</button>
-          </div>
-          <style>
-            {`
+            <div className="popup-content bg-black mt-5 rounded-lg text-white">
+              <h2 className="text-center">Contact Form</h2>
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="name">Name:</label>
+                  <input
+                    id="name"
+                    className="form-control"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email:</label>
+                  <input
+                    id="email"
+                    className="form-control"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="message">Message:</label>
+                  <textarea
+                    id="message"
+                    className="form-control"
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  ></textarea>
+                </div>
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </form>
+              <button
+                onClick={() => setIsDisabled(false)}
+                className="btn btn-secondary"
+              >
+                Close
+              </button>
+            </div>
+            <style>
+              {`
               .popup-overlay {
                 display: flex;
                 justify-content: center;
@@ -130,6 +138,7 @@ export default function Home() {
                 top: 0;
                 left: 0;
                 width: 100%;
+                color: #000000;
                 height: 100%;
                 background-color: rgba(0, 0, 0, 0.5);
                 z-index: 9999;
@@ -177,13 +186,15 @@ export default function Home() {
                 padding:5px 10px;
                 color: #fff;
               }
-        
+        input,textarea{
+          color: #000000 !important;
+        }
               .text-center {
                 text-align: center;
               }
             `}
-          </style>
-        </div>
+            </style>
+          </div>
         )}
         <meta charSet="utf-8" />
         <title>Findtrend</title>
