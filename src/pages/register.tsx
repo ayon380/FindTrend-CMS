@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const signup = () => {
+const Signup = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rpassword, setRpassword] = useState("");
+  const [name, setName] = useState("");
   const verify = async () => {
     const token = localStorage.getItem("user");
     // console.log("dsfds");
@@ -26,10 +30,7 @@ const signup = () => {
   useEffect(() => {
     verify();
   }, []);
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [rpassword, setRpassword] = React.useState("");
-  const [name, setName] = React.useState("");
+  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email") {
@@ -235,4 +236,4 @@ const signup = () => {
   );
 };
 
-export default signup;
+export default Signup;

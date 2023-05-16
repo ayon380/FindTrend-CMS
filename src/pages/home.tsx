@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect ,useState} from "react";
 
-const home = () => {
-  const [images, setImages] = React.useState([]);
+const Home = () => {
+  const [images, setImages] = useState([]);
   const getdata = async () => {
     let p = await fetch(`/api/getdata`, {
       method: "GET",
@@ -42,4 +42,4 @@ const home = () => {
   );
 };
 
-export default home;
+export default Home;
