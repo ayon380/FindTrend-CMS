@@ -1,11 +1,8 @@
-import Link from "next/link";
 import React, { useEffect } from "react";
+import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const Login = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+const signup = () => {
   const verify = async () => {
     const token = localStorage.getItem("user");
     // console.log("dsfds");
@@ -22,48 +19,95 @@ const Login = () => {
     );
     const d = await res.json();
     if (d.success === true) {
-      // console.log("success");
+      console.log("success");
       window.location.href = "/home";
     }
   };
+  useEffect(() => {
+    verify();
+  }, []);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [rpassword, setRpassword] = React.useState("");
+  const [name, setName] = React.useState("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "email") {
       setEmail(value);
     } else if (name === "password") {
       setPassword(value);
+    } else if (name === "rpassword") {
+      setRpassword(value);
+    } else if (name === "name") {
+      setName(value);
     }
   };
-  useEffect(() => {
-    verify();
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (password === rpassword) {
+      const formData = {
+        email: email,
+        password: password,
+        name: name,
+      };
+      console.log(formData);
 
-    const formData = {
-      email: email,
-      password: password,
-    };
-
-    const res = await fetch(`/api/login`, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const d = await res.json();
-    if (d.success === true) {
-      localStorage.setItem("user", d.token);
-      toast.success("Login Successfull");
-      setTimeout(() => {
-        window.location.href = "/home";
-      }, 2000);
+      fetch(`${process.env.NEXT_PUBLIC_HOST}/api/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(
+              "Account Created Successfully✅ ,Redirecting to Login Page",
+              {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              }
+            );
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 2000);
+          }
+        })
+        .catch((err) => {
+          toast.error("Error Occured❌, Please try again", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+          console.log(err);
+        });
       setEmail("");
       setPassword("");
+      setRpassword("");
+      setName("");
     } else {
-      toast.error("Invalid Credentials");
+      toast.error("Passwords should be same❌", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
   };
   return (
@@ -73,18 +117,18 @@ const Login = () => {
         <div className="w-full max-w-md space-y-8">
           <div>
             <div className="text-center font-bold text-4xl mx-5">
-              FindTrend
+            FindTrend
             </div>
             <h2 className="mt-6 text-center text-3xl font-bold tracking-tight ">
-              Sign in to your account
+              Sign Up for a new account
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
               Or{" "}
               <Link
-                href="/register"
+                href="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Register Now
+                Sign in to your account
               </Link>
             </p>
           </div>
@@ -97,6 +141,22 @@ const Login = () => {
             <input type="hidden" name="remember" value="true" />
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
+                <label htmlFor="name" className="sr-only">
+                  Your Name
+                </label>
+                <input
+                  id="name"
+                  name="name"
+                  onChange={handleChange}
+                  value={name}
+                  type="name"
+                  autoComplete="name"
+                  required
+                  className="relative block w-full rounded-t-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Your Name"
+                />
+              </div>
+              <div>
                 <label htmlFor="email-address" className="sr-only">
                   Email address
                 </label>
@@ -108,7 +168,7 @@ const Login = () => {
                   onChange={handleChange}
                   autoComplete="email"
                   required
-                  className="relative block w-full rounded-t-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="relative block w-full  border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   placeholder="Email address"
                 />
               </div>
@@ -119,18 +179,33 @@ const Login = () => {
                 <input
                   id="password"
                   name="password"
-                  type="password"
-                  value={password}
                   onChange={handleChange}
+                  value={password}
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  className="relative block w-full border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  placeholder="Password"
+                />
+              </div>
+              <div>
+                <label htmlFor="rpassword" className="sr-only">
+                  Re-enter Password
+                </label>
+                <input
+                  id="rpassword"
+                  name="rpassword"
+                  value={rpassword}
+                  onChange={handleChange}
+                  type="rpassword"
                   autoComplete="current-password"
                   required
                   className="relative block w-full rounded-b-md border-0 p-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  placeholder="Password"
+                  placeholder="Re-enter Password"
                 />
               </div>
             </div>
 
-            
             <div>
               <button
                 type="submit"
@@ -144,9 +219,9 @@ const Login = () => {
                     aria-hidden="true"
                   >
                     <path
-                      fill-rule="evenodd"
+                      fillRule="evenodd"
                       d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z"
-                      clip-rule="evenodd"
+                      clipRule="evenodd"
                     />
                   </svg>
                 </span>
@@ -160,4 +235,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default signup;

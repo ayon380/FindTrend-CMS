@@ -317,7 +317,7 @@ export default function Home() {
                 <Link
                   data-aos="fade-up"
                   data-aos-delay={600}
-                  href="#"
+                  href="/register"
                   className="btn w-button"
                 >
                   Register

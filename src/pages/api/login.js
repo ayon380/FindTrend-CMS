@@ -1,21 +1,23 @@
 import User from "../../../models/User";
 import connectDB from "../../../middleware/mongoose";
 var CryptoJS = require('crypto-js');
-var jwt=require("jsonwebtoken");
+var jwt = require("jsonwebtoken");
 const handler = async (req, res) => {
     if (req.method === "POST") {
         try {
             // console.log(req.body);
             let user = await User.findOne({ email: req.body.email });
             if (user) {
+                console.log(user);
                 const bytes = CryptoJS.AES.decrypt(user.password, process.env.Sec_Key);
-                let decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8)).toString();
+                let decryptedData = (bytes.toString(CryptoJS.enc.Utf8)).toString();
                 console.log(decryptedData);
                 console.log(req.body.password);
                 if (decryptedData === req.body.password) {
-                    var token=jwt.sign({email:user.email,name:user.name},process.env.Sec_Key,{expiresIn:"2d"})
-                    res.status(200).json({success:true,token:token})
-                    // console.log(res);
+                    var token = jwt.sign({ email: user.email, name: user.name }, process.env.Sec_Key, { expiresIn: "2d" })
+                    console.log(token);
+                    res.status(200).json({ success: true, token })
+
                 }
                 else {
                     res.status(400).json({ message: "Invalid Email ID or Password" })

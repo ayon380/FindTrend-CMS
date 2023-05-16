@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { ToastContainer, toast } from "react-toastify";
-
+import jsPDF from "jspdf";
 import "react-toastify/dist/ReactToastify.css";
 const Admindashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -10,6 +10,7 @@ const Admindashboard = () => {
   const [images, setImages] = useState("");
   const [links, setLinks] = useState("");
   const [users, setUsers] = useState("");
+
   const logout = () => {
     localStorage.removeItem("adminuser");
     window.location.href = "/adminlogin";
@@ -56,6 +57,27 @@ const Admindashboard = () => {
     } else if (name === "links") {
       setLinks(value);
     }
+  };
+  const PDF = async () => {
+    let data = await fetch(`/api/getcontact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ token: localStorage.getItem("adminuser") }),
+    });
+    let d = await data.json();
+    d = d["data"];
+    console.log(d);
+    const doc = new jsPDF();
+    doc.text(
+      35,
+      25,
+      d
+        .map((e) => e.name + " : " + e.email + " : " + e.message + "\n")
+        .toString()
+    );
+    doc.save("contact.pdf");
   };
   useEffect(() => {
     verify();
@@ -190,6 +212,15 @@ const Admindashboard = () => {
             className="group w-1/3  rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Save
+          </button>
+        </div>
+        <div className="flex mt-28 justify-center">
+          <button
+            type="submit"
+            onClick={() => PDF()}
+            className="group w-1/3  rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            GET Contact PDF
           </button>
         </div>
       </div>
