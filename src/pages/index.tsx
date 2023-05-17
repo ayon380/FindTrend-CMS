@@ -170,18 +170,19 @@ export default function Home() {
                 display: inline-block;
                 padding: 10px 20px;
                 font-size: 16px;
+                background-color: #A8FF35 !important;
                 border-radius: 5px;
                 cursor: pointer;
               }
         
               .btn-primary {
-                background-color: #007bff;
+               
                 border: none;
                 color: #fff;
               }
         
               .btn-secondary {
-                background-color: #6c757d;
+                background-color: #A8FF35;
                 border: none;
                 padding:5px 10px;
                 color: #fff;
