@@ -27,7 +27,7 @@ export default function Home() {
     "https://www.google.com",
   ]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [banner, setBanner] = useState("Fuck");
+  const [banner, setBanner] = useState("");
   const [images, setImages] = useState([]);
   const getdata = async () => {
     let p = await fetch(`/api/getdata`, {
